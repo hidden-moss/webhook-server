@@ -13,16 +13,19 @@ app.get(`/`, (req, res) => {
 });
 
 app.post(`/webhook/:from/:to/:bot`, (req, res) => {
-  console.log(req.body); //
   const from = req.params.from.toLowerCase();
   const to = req.params.to.toLowerCase();
   const bot = req.params.bot;
-  console.log(ctrl.parsers[from], ctrl.templates[to]);
-
-  if (ctrl.parsers[from] && ctrl.templates[to]) {
+  const parser = ctrl.parsers[from];
+  const template = ctrl.templates[to];
+  if (parser && template) {
     res.status(200).send("OK");
+    const ctx = parser.parse(req);
+    template.send(bot, ctx);
     return;
   }
+  console.log(req.body);
+  console.log(parser, template);
   res.status(500).send("Link Error");
 });
 
