@@ -1,0 +1,23 @@
+{
+  "name": "webhook-server",
+  "version": "0.0.1",
+  "description": "A server to forward webhook messages.",
+  "private": false,
+  "keywords": [
+    "bot",
+    "git",
+    "webhook"
+  ],
+  "author": "Hidden Moss Inc",
+  "contributors": ["Yuancheng Zhang"],
+  "scripts": {
+    "start": "node ./app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hidden-moss/webhook-server.git"
+  },
+  "dependencies": {
+    "express": "~4.16.1"
+  }
+}
