@@ -47,6 +47,10 @@ const translatePush = (body) => {
   for (const cmt of body.commits) {
     commitMd += `\n🔸 **${cmt.committer}**: [${cmt.msg}](${cmt.url})`;
   }
+  if (commitMd === "") {
+    // no commit
+    commitMd = "\n🚫 Nothing to commit";
+  }
 
   // Bot Message
   botMsg.card = {
