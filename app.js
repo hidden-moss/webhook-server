@@ -19,14 +19,20 @@ app.post(`/webhook/:from/:to/:bot`, (req, res) => {
   const parser = ctrl.parsers[from];
   const template = ctrl.templates[to];
   if (parser && template) {
-    res.status(200).send("OK");
-    const ctx = parser.parse(req);
-    template.send(bot, ctx);
-    return;
+    try {
+      const ctx = parser.parse(req);
+      template.send(bot, ctx);
+      res.status(200).send("OK");
+    } catch (err) {
+      res.status(500).send(err);
+    } finally {
+      return;
+    }
+  } else {
+    console.log(req.body);
+    console.log(parser, template);
+    res.status(500).send("Link Error");
   }
-  console.log(req.body);
-  console.log(parser, template);
-  res.status(500).send("Link Error");
 });
 
 app.get("/404", (req, res) => {
