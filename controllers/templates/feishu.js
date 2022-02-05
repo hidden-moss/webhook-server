@@ -45,7 +45,8 @@ const translatePush = (body) => {
   // Commit Markdown
   let commitMd = "";
   for (const cmt of body.commits) {
-    commitMd += `\n🔸 **${cmt.committer}**: [${cmt.msg}](${cmt.url})`;
+    commitMd += `\n🔸 **${cmt.committer}**: `;
+    commitMd += `[${cmt.msg.split("\n")[0]}](${cmt.url})`;
   }
   if (commitMd === "") {
     // no commit
