@@ -78,7 +78,7 @@ const translatePush = (body) => {
           {
             is_short: true,
             text: {
-              content: `🔀 **branch**:\n${body.ref}`,
+              content: `🔀 **branch**: ${body.ref}`,
               tag: "lark_md",
             },
           },
@@ -222,7 +222,7 @@ const translatePullRequest = (body) => {
         {
           is_short: true,
           text: {
-            content: `🔸 **commits**: [${body.pull_request.commits}](${body.pull_request.url}/commits)\n🦠 **state**: ${body.pull_request.state}`,
+            content: `🦠 **state**: ${body.pull_request.state}\n🔸 **commits**: [${body.pull_request.commits}](${body.pull_request.url}/commits)`,
             tag: "lark_md",
           },
         },
@@ -289,9 +289,9 @@ const translateIssue = (body) => {
         {
           is_short: true,
           text: {
-            content: `🦠 **state**: ${body.issue.state} [#${
-              body.issue.number
-            }](${body.issue.url})\n👩🏻‍💻 **assignee**: ${
+            content: `🦠 **state**: [#${body.issue.number}](${
+              body.issue.url
+            }) ${body.issue.state}\n👩🏻‍💻 **assignee**: ${
               body.issue.assignee
                 ? `[${body.issue.assignee.name}](${body.issue.assignee.url})`
                 : "none"
