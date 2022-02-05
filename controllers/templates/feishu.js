@@ -183,7 +183,7 @@ const translatePullRequest = (body) => {
   botMsg.card.header = {
     template: "red",
     title: {
-      content: `🙏 Pull request ${body.action} #${body.pull_request.number}`,
+      content: `🙏 Pull request #${body.pull_request.number} ${body.action}`,
       tag: "plain_text",
     },
   };
@@ -194,7 +194,7 @@ const translatePullRequest = (body) => {
         {
           is_short: false,
           text: {
-            content: `🧩 **pull request**: [${body.pull_request.head} ➡️ ${body.pull_request.base}](${body.pull_request.url}))`,
+            content: `🧩 **pull request [#${body.pull_request.number}](${body.pull_request.url})**: \n[${body.pull_request.head} => ${body.pull_request.base}](${body.pull_request.url})`,
             tag: "lark_md",
           },
         },
@@ -228,7 +228,7 @@ const translatePullRequest = (body) => {
     {
       tag: "div",
       text: {
-        content: `📝 **[${body.pull_request.title}](${body.pull_request.url})**\n${body.pull_request.body}`,
+        content: `📝 **[#${body.pull_request.number}](${body.pull_request.url}) [${body.pull_request.title}](${body.pull_request.url})**\n${body.pull_request.body}`,
         tag: "lark_md",
       },
     },
@@ -250,7 +250,7 @@ const translateIssue = (body) => {
   botMsg.card.header = {
     template: "orange",
     title: {
-      content: `🎈 Issue ${body.action} #${body.issue.number}`,
+      content: `🎈 Issue #${body.issue.number} ${body.action}`,
       tag: "plain_text",
     },
   };
@@ -261,7 +261,7 @@ const translateIssue = (body) => {
         {
           is_short: true,
           text: {
-            content: `🦠 **state**:\n${body.issue.state}`,
+            content: `🦠 **state**:\n${body.issue.state} [#${body.issue.number}](${body.issue.url})`,
             tag: "lark_md",
           },
         },
@@ -281,7 +281,7 @@ const translateIssue = (body) => {
     {
       tag: "div",
       text: {
-        content: `📝 **[${body.issue.title}](${body.issue.url})**\n${body.issue.body}`,
+        content: `📝 **[#${body.issue.number}](${body.issue.url}) [${body.issue.title}](${body.issue.url})**\n${body.issue.body}`,
         tag: "lark_md",
       },
     },
