@@ -85,7 +85,7 @@ const translatePush = (body) => {
           {
             is_short: true,
             text: {
-              content: `👤 **sender**:\n[${body.sender.name}](${body.sender.url})`,
+              content: `👤 **sender**: [${body.sender.name}](${body.sender.url})`,
               tag: "lark_md",
             },
           },
@@ -150,7 +150,7 @@ const translateCreate = (body) => {
           {
             is_short: true,
             text: {
-              content: `👤 **sender**:\n[${body.sender.name}](${body.sender.url})`,
+              content: `👤 **sender**: [${body.sender.name}](${body.sender.url})`,
               tag: "lark_md",
             },
           },
@@ -194,7 +194,21 @@ const translatePullRequest = (body) => {
         {
           is_short: false,
           text: {
-            content: `🧩 **pull request [#${body.pull_request.number}](${body.pull_request.url})**: \n[${body.pull_request.head} => ${body.pull_request.base}](${body.pull_request.url})`,
+            content: `🔗 **repo**: [${body.owner.name}](${body.owner.url}) / [${body.repo.name}](${body.repo.url})`,
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: false,
+          text: {
+            content: "",
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: false,
+          text: {
+            content: `🧩 **pull request**: **[#${body.pull_request.number}](${body.pull_request.url})** [${body.pull_request.head} ➡️ ${body.pull_request.base}](${body.pull_request.url})`,
             tag: "lark_md",
           },
         },
@@ -208,14 +222,14 @@ const translatePullRequest = (body) => {
         {
           is_short: true,
           text: {
-            content: `🔸 **commits**:\n[${body.pull_request.commits}](${body.pull_request.url}/commits)`,
+            content: `🔸 **commits**: [${body.pull_request.commits}](${body.pull_request.url}/commits)\n🦠 **state**: ${body.pull_request.state}`,
             tag: "lark_md",
           },
         },
         {
           is_short: true,
           text: {
-            content: `👤 **sender**:\n[${body.sender.name}](${body.sender.url})`,
+            content: `👤 **sender**: [${body.sender.name}](${body.sender.url})`,
             tag: "lark_md",
           },
         },
@@ -259,16 +273,36 @@ const translateIssue = (body) => {
     {
       fields: [
         {
-          is_short: true,
+          is_short: false,
           text: {
-            content: `🦠 **state**:\n${body.issue.state} [#${body.issue.number}](${body.issue.url})`,
+            content: `🔗 **repo**: [${body.owner.name}](${body.owner.url}) / [${body.repo.name}](${body.repo.url})`,
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: false,
+          text: {
+            content: "",
             tag: "lark_md",
           },
         },
         {
           is_short: true,
           text: {
-            content: `👤 **sender**:\n[${body.sender.name}](${body.sender.url})`,
+            content: `🦠 **state**: ${body.issue.state} [#${
+              body.issue.number
+            }](${body.issue.url})\n👩🏻‍💻 **assignee**: ${
+              body.issue.assignee
+                ? `[${body.issue.assignee.name}](${body.issue.assignee.url})`
+                : "none"
+            }`,
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: true,
+          text: {
+            content: `👤 **sender**: [${body.sender.name}](${body.sender.url})`,
             tag: "lark_md",
           },
         },
