@@ -27,7 +27,7 @@ const translatePing = (body) => {
       },
     ],
     header: {
-      template: "blue",
+      template: "turquoise",
       title: {
         content: "🤏 添加了新的 Webhook",
         tag: "plain_text",
