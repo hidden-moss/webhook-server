@@ -56,9 +56,19 @@ const parseBody = (payload) => {
   const body = {};
   body.repo = getRepo(payload);
   body.owner = getOwner(payload);
-  body.branch = payload.ref;
   body.sender = getSender(payload);
+  body.ref = payload.ref;
   body.commits = getCommits(payload);
+  return body;
+};
+
+const parseCreate = (payload) => {
+  const body = {};
+  body.repo = getRepo(payload);
+  body.owner = getOwner(payload);
+  body.sender = getSender(payload);
+  body.ref = payload.ref;
+  body.ref_type = payload.ref_type;
   return body;
 };
 
@@ -70,6 +80,10 @@ const dict = {
   push: {
     event: "PUSH",
     parse: parseBody,
+  },
+  create: {
+    event: "CREATE",
+    parse: parseCreate,
   },
 };
 
