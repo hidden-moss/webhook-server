@@ -104,10 +104,12 @@ const parseIssue = (payload) => {
     state: payload.issue.state,
     title: payload.issue.title,
     body: payload.issue.body,
-    assignee: {
-      name: payload.issue.assignee.login,
-      url: payload.issue.assignee ? payload.issue.assignee.html_url : undefined,
-    },
+    assignee: payload.issue.assignee
+      ? {
+          name: payload.issue.assignee.login,
+          url: payload.issue.assignee.html_url,
+        }
+      : undefined,
     merged: payload.issue.merged,
   };
   return body;
