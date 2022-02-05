@@ -114,7 +114,9 @@ const dict = {
 exports.parse = (req) => {
   const ctx = {};
   const event = req.header("X-GitHub-Event");
-  ctx.event = dict[event].event;
-  ctx.body = dict[event].parse(req.body);
-  return ctx;
+  if (event && dict[event]) {
+    ctx.event = dict[event].event;
+    ctx.body = dict[event].parse(req.body);
+    return ctx;
+  }
 };

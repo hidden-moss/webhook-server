@@ -18,11 +18,16 @@ app.post(`/webhook/:from/:to/:bot`, (req, res) => {
   const bot = req.params.bot;
   const parser = ctrl.parsers[from];
   const template = ctrl.templates[to];
+  // TODO: need to optimize
   if (parser && template) {
     try {
       const ctx = parser.parse(req);
-      template.send(bot, ctx);
-      res.status(200).send("OK");
+      if (ctx) {
+        template.send(bot, ctx);
+        res.status(200).send("OK");
+      } else {
+        res.status(500).send("Parse Error");
+      }
     } catch (err) {
       console.log(err);
       res.status(500).send(err);
