@@ -24,6 +24,7 @@ app.post(`/webhook/:from/:to/:bot`, (req, res) => {
       template.send(bot, ctx);
       res.status(200).send("OK");
     } catch (err) {
+      console.log(err);
       res.status(500).send(err);
     } finally {
       return;

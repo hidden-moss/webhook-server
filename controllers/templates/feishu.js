@@ -30,7 +30,7 @@ const translatePing = (body) => {
     header: {
       template: "purple",
       title: {
-        content: "🤏 New Webhook",
+        content: "🤏 New webhook",
         tag: "plain_text",
       },
     },
@@ -46,6 +46,10 @@ const translatePush = (body) => {
   let commitMd = "";
   for (const cmt of body.commits) {
     commitMd += `\n🔸 **${cmt.committer}**: [${cmt.msg}](${cmt.url})`;
+  }
+  if (commitMd === "") {
+    // no commit
+    commitMd = "\n🚫 Nothing to commit";
   }
 
   // Bot Message
@@ -73,7 +77,7 @@ const translatePush = (body) => {
           {
             is_short: true,
             text: {
-              content: `🔀 **branch**:\n${body.branch}`,
+              content: `🔀 **branch**:\n${body.ref}`,
               tag: "lark_md",
             },
           },
@@ -101,7 +105,62 @@ const translatePush = (body) => {
     header: {
       template: "blue",
       title: {
-        content: `✋ Push → ${body.branch}`,
+        content: `✋ Push → ${body.ref}`,
+        tag: "plain_text",
+      },
+    },
+  };
+
+  return botMsg;
+};
+
+const translateCreate = (body) => {
+  const botMsg = {};
+  Object.assign(botMsg, template);
+
+  botMsg.card = {
+    config: {
+      wide_screen_mode: true,
+    },
+    elements: [
+      {
+        fields: [
+          {
+            is_short: false,
+            text: {
+              content: `🔗 **repo**: [${body.owner.name}](${body.owner.url}) / [${body.repo.name}](${body.repo.url})`,
+              tag: "lark_md",
+            },
+          },
+          {
+            is_short: false,
+            text: {
+              content: "",
+              tag: "lark_md",
+            },
+          },
+          {
+            is_short: true,
+            text: {
+              content: `🔀 **${body.ref_type}**:\n${body.ref}`,
+              tag: "lark_md",
+            },
+          },
+          {
+            is_short: true,
+            text: {
+              content: `👤 **sender**:\n[${body.sender.name}](${body.sender.url})`,
+              tag: "lark_md",
+            },
+          },
+        ],
+        tag: "div",
+      },
+    ],
+    header: {
+      template: "purple",
+      title: {
+        content: `🤌 New ${body.ref_type} → ${body.ref}`,
         tag: "plain_text",
       },
     },
@@ -113,6 +172,7 @@ const translatePush = (body) => {
 const dict = {
   PING: translatePing,
   PUSH: translatePush,
+  CREATE: translateCreate,
 };
 
 //////! Send Request ///////
