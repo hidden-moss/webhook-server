@@ -113,6 +113,19 @@ const parseIssue = (payload) => {
   return body;
 };
 
+const parseComment = (payload) => {
+  const body = parseIssue(payload);
+  body.comment = {
+    url: payload.comment.html_url,
+    body: payload.comment.body,
+    user: {
+      name: payload.comment.user.login,
+      url: payload.comment.user.html_url,
+    },
+  };
+  return body;
+};
+
 const dict = {
   ping: {
     event: "PING",
@@ -133,6 +146,10 @@ const dict = {
   issues: {
     event: "ISSUE",
     parse: parseIssue,
+  },
+  issue_comment: {
+    event: "COMMENT",
+    parse: parseComment,
   },
 };
 

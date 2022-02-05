@@ -7,32 +7,31 @@ const https = require("https");
 
 const template = {
   msg_type: "interactive",
-  card: {},
+  card: {
+    config: {
+      wide_screen_mode: true,
+    },
+  },
 };
 
 const translatePing = (body) => {
   const botMsg = {};
   Object.assign(botMsg, template);
   // Bot Message
-  botMsg.card = {
-    config: {
-      wide_screen_mode: true,
+  botMsg.card.elements = [
+    {
+      tag: "div",
+      text: {
+        content: `🔗 **repo**: [${body.owner.name}](${body.owner.url}) / [${body.repo.name}](${body.repo.url})\n🔮 **zen**: ${body.zen}`,
+        tag: "lark_md",
+      },
     },
-    elements: [
-      {
-        tag: "div",
-        text: {
-          content: `🔗 **repo**: [${body.owner.name}](${body.owner.url}) / [${body.repo.name}](${body.repo.url})\n🔮 **zen**: ${body.zen}`,
-          tag: "lark_md",
-        },
-      },
-    ],
-    header: {
-      template: "purple",
-      title: {
-        content: "🤏 New webhook",
-        tag: "plain_text",
-      },
+  ];
+  botMsg.card.header = {
+    template: "purple",
+    title: {
+      content: "🤏 New webhook",
+      tag: "plain_text",
     },
   };
   return botMsg;
@@ -54,63 +53,59 @@ const translatePush = (body) => {
   }
 
   // Bot Message
-  botMsg.card = {
-    config: {
-      wide_screen_mode: true,
-    },
-    elements: [
-      {
-        fields: [
-          {
-            is_short: false,
-            text: {
-              content: `🔗 **repo**: [${body.owner.name}](${body.owner.url}) / [${body.repo.name}](${body.repo.url})`,
-              tag: "lark_md",
-            },
-          },
-          {
-            is_short: false,
-            text: {
-              content: "",
-              tag: "lark_md",
-            },
-          },
-          {
-            is_short: true,
-            text: {
-              content: `🔀 **branch**: ${body.ref}`,
-              tag: "lark_md",
-            },
-          },
-          {
-            is_short: true,
-            text: {
-              content: `👤 **sender**: [${body.sender.name}](${body.sender.url})`,
-              tag: "lark_md",
-            },
-          },
-        ],
-        tag: "div",
-      },
-      {
-        tag: "hr",
-      },
-      {
-        tag: "div",
-        text: {
-          content: commitMd,
-          tag: "lark_md",
-        },
-      },
-    ],
-    header: {
-      template: "blue",
-      title: {
-        content: `✋ Push → ${body.ref}`,
-        tag: "plain_text",
-      },
+  botMsg.card.header = {
+    template: "green",
+    title: {
+      content: `✋ Push → ${body.ref}`,
+      tag: "plain_text",
     },
   };
+
+  botMsg.card.elements = [
+    {
+      fields: [
+        {
+          is_short: false,
+          text: {
+            content: `🔗 **repo**: [${body.owner.name}](${body.owner.url}) / [${body.repo.name}](${body.repo.url})`,
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: false,
+          text: {
+            content: "",
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: true,
+          text: {
+            content: `🔀 **branch**: ${body.ref}`,
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: true,
+          text: {
+            content: `👤 **sender**: [${body.sender.name}](${body.sender.url})`,
+            tag: "lark_md",
+          },
+        },
+      ],
+      tag: "div",
+    },
+    {
+      tag: "hr",
+    },
+    {
+      tag: "div",
+      text: {
+        content: commitMd,
+        tag: "lark_md",
+      },
+    },
+  ];
 
   return botMsg;
 };
@@ -119,53 +114,49 @@ const translateCreate = (body) => {
   const botMsg = {};
   Object.assign(botMsg, template);
 
-  botMsg.card = {
-    config: {
-      wide_screen_mode: true,
-    },
-    elements: [
-      {
-        fields: [
-          {
-            is_short: false,
-            text: {
-              content: `🔗 **repo**: [${body.owner.name}](${body.owner.url}) / [${body.repo.name}](${body.repo.url})`,
-              tag: "lark_md",
-            },
-          },
-          {
-            is_short: false,
-            text: {
-              content: "",
-              tag: "lark_md",
-            },
-          },
-          {
-            is_short: true,
-            text: {
-              content: `🔀 **${body.ref_type}**:\n${body.ref}`,
-              tag: "lark_md",
-            },
-          },
-          {
-            is_short: true,
-            text: {
-              content: `👤 **sender**: [${body.sender.name}](${body.sender.url})`,
-              tag: "lark_md",
-            },
-          },
-        ],
-        tag: "div",
-      },
-    ],
-    header: {
-      template: "purple",
-      title: {
-        content: `🤌 New ${body.ref_type} → ${body.ref}`,
-        tag: "plain_text",
-      },
+  botMsg.card.header = {
+    template: "purple",
+    title: {
+      content: `🤌 New ${body.ref_type} → ${body.ref}`,
+      tag: "plain_text",
     },
   };
+
+  botMsg.card.elements = [
+    {
+      fields: [
+        {
+          is_short: false,
+          text: {
+            content: `🔗 **repo**: [${body.owner.name}](${body.owner.url}) / [${body.repo.name}](${body.repo.url})`,
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: false,
+          text: {
+            content: "",
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: true,
+          text: {
+            content: `🔀 **${body.ref_type}**:\n${body.ref}`,
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: true,
+          text: {
+            content: `👤 **sender**: [${body.sender.name}](${body.sender.url})`,
+            tag: "lark_md",
+          },
+        },
+      ],
+      tag: "div",
+    },
+  ];
 
   return botMsg;
 };
@@ -173,12 +164,6 @@ const translateCreate = (body) => {
 const translatePullRequest = (body) => {
   const botMsg = {};
   Object.assign(botMsg, template);
-
-  botMsg.card = {
-    config: {
-      wide_screen_mode: true,
-    },
-  };
 
   botMsg.card.header = {
     template: "red",
@@ -255,12 +240,6 @@ const translateIssue = (body) => {
   const botMsg = {};
   Object.assign(botMsg, template);
 
-  botMsg.card = {
-    config: {
-      wide_screen_mode: true,
-    },
-  };
-
   botMsg.card.header = {
     template: "orange",
     title: {
@@ -324,12 +303,97 @@ const translateIssue = (body) => {
   return botMsg;
 };
 
+const translateComment = (body) => {
+  const botMsg = {};
+  Object.assign(botMsg, template);
+
+  botMsg.card.header = {
+    template: "turquoise",
+    title: {
+      content: `💬 Comment ${body.action}`,
+      tag: "plain_text",
+    },
+  };
+
+  botMsg.card.elements = [
+    {
+      fields: [
+        {
+          is_short: false,
+          text: {
+            content: `🔗 **repo**: [${body.owner.name}](${body.owner.url}) / [${body.repo.name}](${body.repo.url})`,
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: false,
+          text: {
+            content: "",
+            tag: "lark_md",
+          },
+        },
+        {
+          tag: "div",
+          text: {
+            content: `🎈 **[#${body.issue.number}](${body.issue.url}) [${body.issue.title}](${body.issue.url})**`,
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: false,
+          text: {
+            content: "",
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: true,
+          text: {
+            content: `🦠 **state**: [#${body.issue.number}](${body.issue.url}) ${body.issue.state}`,
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: true,
+          text: {
+            content: `👤 **sender**: [${body.sender.name}](${body.sender.url})`,
+            tag: "lark_md",
+          },
+        },
+      ],
+      tag: "div",
+    },
+    {
+      tag: "hr",
+    },
+    {
+      tag: "div",
+      text: {
+        content: `💬 **[${body.comment.user.name}](${body.comment.user.url})**: ${body.comment.body}`,
+        tag: "lark_md",
+      },
+      extra: {
+        tag: "button",
+        text: {
+          content: "🔫 REPLY ",
+          tag: "lark_md",
+        },
+        type: "primary",
+        url: `${body.comment.url}`,
+      },
+    },
+  ];
+
+  return botMsg;
+};
+
 const dict = {
   PING: translatePing,
   PUSH: translatePush,
   CREATE: translateCreate,
   PULL_REQUEST: translatePullRequest,
   ISSUE: translateIssue,
+  COMMENT: translateComment,
 };
 
 //////! Send Request ///////
