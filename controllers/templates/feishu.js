@@ -21,13 +21,13 @@ const translatePing = (body) => {
       {
         tag: "div",
         text: {
-          content: `🔗 **repo**: [${body.owner.name}](${body.owner.url}) / [${body.repo.name}](${body.repo.url})`,
+          content: `🔗 **repo**: [${body.owner.name}](${body.owner.url}) / [${body.repo.name}](${body.repo.url})\n🔮 **zen**: ${body.zen}`,
           tag: "lark_md",
         },
       },
     ],
     header: {
-      template: "turquoise",
+      template: "purple",
       title: {
         content: "🤏 添加了新的 Webhook",
         tag: "plain_text",

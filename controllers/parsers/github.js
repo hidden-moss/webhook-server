@@ -12,6 +12,7 @@ const parsePing = (payload) => {
     name: payload.repository.owner.login,
     url: payload.repository.owner.html_url,
   };
+  body.zen = payload.zen;
 
   return body;
 };
