@@ -92,6 +92,24 @@ const parsePullRequest = (payload) => {
   return body;
 };
 
+const parseIssue = (payload) => {
+  const body = {};
+  body.repo = getRepo(payload);
+  body.owner = getOwner(payload);
+  body.sender = getSender(payload);
+  body.action = payload.action;
+  body.issue = {
+    number: payload.issue.number,
+    url: payload.issue.html_url,
+    state: payload.issue.state,
+    title: payload.issue.title,
+    body: payload.issue.body,
+    assignee: payload.issue.assignee,
+    merged: payload.issue.merged,
+  };
+  return body;
+};
+
 const dict = {
   ping: {
     event: "PING",
@@ -108,6 +126,10 @@ const dict = {
   pull_request: {
     event: "PULL_REQUEST",
     parse: parsePullRequest,
+  },
+  issues: {
+    event: "ISSUE",
+    parse: parseIssue,
   },
 };
 

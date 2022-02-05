@@ -237,11 +237,65 @@ const translatePullRequest = (body) => {
   return botMsg;
 };
 
+const translateIssue = (body) => {
+  const botMsg = {};
+  Object.assign(botMsg, template);
+
+  botMsg.card = {
+    config: {
+      wide_screen_mode: true,
+    },
+  };
+
+  botMsg.card.header = {
+    template: "orange",
+    title: {
+      content: `🎈 Issue ${body.action} #${body.issue.number}`,
+      tag: "plain_text",
+    },
+  };
+
+  botMsg.card.elements = [
+    {
+      fields: [
+        {
+          is_short: true,
+          text: {
+            content: `🦠 **state**:\n${body.issue.state}`,
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: true,
+          text: {
+            content: `👤 **sender**:\n[${body.sender.name}](${body.sender.url})`,
+            tag: "lark_md",
+          },
+        },
+      ],
+      tag: "div",
+    },
+    {
+      tag: "hr",
+    },
+    {
+      tag: "div",
+      text: {
+        content: `📝 **[${body.issue.title}](${body.issue.url})**\n${body.issue.body}`,
+        tag: "lark_md",
+      },
+    },
+  ];
+
+  return botMsg;
+};
+
 const dict = {
   PING: translatePing,
   PUSH: translatePush,
   CREATE: translateCreate,
   PULL_REQUEST: translatePullRequest,
+  ISSUE: translateIssue,
 };
 
 //////! Send Request ///////
