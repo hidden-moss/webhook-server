@@ -169,10 +169,78 @@ const translateCreate = (body) => {
   return botMsg;
 };
 
+const translatePullRequest = (body) => {
+  const botMsg = {};
+  Object.assign(botMsg, template);
+
+  botMsg.card = {
+    config: {
+      wide_screen_mode: true,
+    },
+  };
+
+  botMsg.card.header = {
+    template: "red",
+    title: {
+      content: `🙏 Pull request ${body.action} #${body.pull_request.number}`,
+      tag: "plain_text",
+    },
+  };
+
+  botMsg.card.elements = [
+    {
+      fields: [
+        {
+          is_short: false,
+          text: {
+            content: `🧩 **pull request**: [${body.pull_request.head} ➡️ ${body.pull_request.base}](${body.pull_request.url}))`,
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: false,
+          text: {
+            content: "",
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: true,
+          text: {
+            content: `🔸 **commits**:\n[${body.pull_request.commits}](${body.pull_request.url}/commits)`,
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: true,
+          text: {
+            content: `👤 **sender**:\n[${body.sender.name}](${body.sender.url})`,
+            tag: "lark_md",
+          },
+        },
+      ],
+      tag: "div",
+    },
+    {
+      tag: "hr",
+    },
+    {
+      tag: "div",
+      text: {
+        content: `📝 **${body.pull_request.title}**\n${body.pull_request.body}`,
+        tag: "lark_md",
+      },
+    },
+  ];
+
+  return botMsg;
+};
+
 const dict = {
   PING: translatePing,
   PUSH: translatePush,
   CREATE: translateCreate,
+  PULL_REQUEST: translatePullRequest,
 };
 
 //////! Send Request ///////
