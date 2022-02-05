@@ -228,7 +228,7 @@ const translatePullRequest = (body) => {
     {
       tag: "div",
       text: {
-        content: `📝 **${body.pull_request.title}**\n${body.pull_request.body}`,
+        content: `📝 **[${body.pull_request.title}](${body.pull_request.url})**\n${body.pull_request.body}`,
         tag: "lark_md",
       },
     },
