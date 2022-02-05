@@ -13,6 +13,7 @@ const template = {
 const translatePing = (body) => {
   const botMsg = {};
   Object.assign(botMsg, template);
+  // Bot Message
   botMsg.card = {
     config: {
       wide_screen_mode: true,
@@ -29,7 +30,7 @@ const translatePing = (body) => {
     header: {
       template: "purple",
       title: {
-        content: "🤏 添加了新的 Webhook",
+        content: "🤏 New Webhook",
         tag: "plain_text",
       },
     },
@@ -40,8 +41,72 @@ const translatePing = (body) => {
 const translatePush = (body) => {
   const botMsg = {};
   Object.assign(botMsg, template);
-  botMsg.card = {};
-  //TODO:
+
+  // Commit Markdown
+  let commitMd = "";
+  for (const cmt of body.commits) {
+    commitMd += `\n🔸 **${cmt.committer}**: [${cmt.msg}](${cmt.url})`;
+  }
+
+  // Bot Message
+  botMsg.card = {
+    config: {
+      wide_screen_mode: true,
+    },
+    elements: [
+      {
+        fields: [
+          {
+            is_short: false,
+            text: {
+              content: `🔗 **repo**: [${body.owner.name}](${body.owner.url}) / [${body.repo.name}](${body.repo.url})`,
+              tag: "lark_md",
+            },
+          },
+          {
+            is_short: false,
+            text: {
+              content: "",
+              tag: "lark_md",
+            },
+          },
+          {
+            is_short: true,
+            text: {
+              content: `🔀 **branch**:\n${body.branch}`,
+              tag: "lark_md",
+            },
+          },
+          {
+            is_short: true,
+            text: {
+              content: `👤 **sender**:\n[${body.sender.name}](${body.sender.url})`,
+              tag: "lark_md",
+            },
+          },
+        ],
+        tag: "div",
+      },
+      {
+        tag: "hr",
+      },
+      {
+        tag: "div",
+        text: {
+          content: commitMd,
+          tag: "lark_md",
+        },
+      },
+    ],
+    header: {
+      template: "blue",
+      title: {
+        content: `✋ Push → ${body.branch}`,
+        tag: "plain_text",
+      },
+    },
+  };
+
   return botMsg;
 };
 

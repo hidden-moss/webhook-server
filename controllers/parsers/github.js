@@ -2,16 +2,51 @@
 // @see https://hiddenmoss.com/
 // @author Yuancheng Zhang
 
-const parsePing = (payload) => {
-  const body = {};
-  body.repo = {
+//////! Parser Helpers ///////
+
+const getRepo = (payload) => {
+  const repo = {
     name: payload.repository.name,
     url: payload.repository.html_url,
   };
-  body.owner = {
+  return repo;
+};
+
+const getOwner = (payload) => {
+  const owner = {
     name: payload.repository.owner.login,
     url: payload.repository.owner.html_url,
   };
+  return owner;
+};
+
+const getSender = (payload) => {
+  const sender = {
+    name: payload.sender.login,
+    url: payload.sender.html_url,
+    avatar_url: payload.sender.avatar_url,
+  };
+  return sender;
+};
+
+const getCommits = (payload) => {
+  const commits = [];
+  for (const cmt of payload.commits) {
+    commits.push({
+      msg: cmt.message,
+      committer: cmt.committer.username,
+      url: cmt.url,
+    });
+  }
+  return commits;
+};
+
+//////! Parsers ///////
+
+const parsePing = (payload) => {
+  const body = {};
+  body.repo = getRepo(payload);
+  body.owner = getOwner(payload);
   body.zen = payload.zen;
 
   return body;
@@ -19,6 +54,11 @@ const parsePing = (payload) => {
 
 const parseBody = (payload) => {
   const body = {};
+  body.repo = getRepo(payload);
+  body.owner = getOwner(payload);
+  body.branch = payload.ref;
+  body.sender = getSender(payload);
+  body.commits = getCommits(payload);
   return body;
 };
 
