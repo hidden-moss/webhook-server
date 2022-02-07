@@ -115,8 +115,25 @@ const parseIssue = (payload) => {
   return body;
 };
 
-const parseComment = (payload) => {
+const parseIssueComment = (payload) => {
   const body = parseIssue(payload);
+  body.comment = {
+    url: payload.comment.html_url,
+    body: payload.comment.body,
+    user: {
+      name: payload.comment.user.login,
+      url: payload.comment.user.html_url,
+    },
+  };
+  return body;
+};
+
+const parseCommitComment = (payload) => {
+  const body = {};
+  body.repo = getRepo(payload);
+  body.owner = getOwner(payload);
+  body.sender = getSender(payload);
+  body.action = payload.action;
   body.comment = {
     url: payload.comment.html_url,
     body: payload.comment.body,
@@ -151,7 +168,11 @@ const dict = {
   },
   issue_comment: {
     event: "COMMENT",
-    parse: parseComment,
+    parse: parseIssueComment,
+  },
+  commit_comment: {
+    event: "COMMENT",
+    parse: parseCommitComment,
   },
 };
 

@@ -315,54 +315,63 @@ const translateComment = (body) => {
     },
   };
 
-  botMsg.card.elements = [
-    {
-      fields: [
-        {
-          is_short: false,
-          text: {
-            content: `🔗 **repo**: [${body.owner.name}](${body.owner.url}) / [${body.repo.name}](${body.repo.url})`,
-            tag: "lark_md",
-          },
+  const divFields = {
+    fields: [
+      {
+        is_short: false,
+        text: {
+          content: `🔗 **repo**: [${body.owner.name}](${body.owner.url}) / [${body.repo.name}](${body.repo.url})`,
+          tag: "lark_md",
         },
-        {
-          is_short: false,
-          text: {
-            content: "",
-            tag: "lark_md",
-          },
+      },
+      {
+        is_short: false,
+        text: {
+          content: "",
+          tag: "lark_md",
         },
-        {
-          tag: "div",
-          text: {
-            content: `🎈 **[#${body.issue.number}](${body.issue.url}) [${body.issue.title}](${body.issue.url})**`,
-            tag: "lark_md",
-          },
+      },
+    ],
+    tag: "div",
+  };
+
+  botMsg.card.elements = [divFields];
+
+  if (body.issue) {
+    divFields.fields = divFields.fields.concat([
+      {
+        is_short: false,
+        text: {
+          content: `🎈 **[#${body.issue.number}](${body.issue.url}) [${body.issue.title}](${body.issue.url})**`,
+          tag: "lark_md",
         },
-        {
-          is_short: false,
-          text: {
-            content: "",
-            tag: "lark_md",
-          },
+      },
+      {
+        is_short: false,
+        text: {
+          content: "",
+          tag: "lark_md",
         },
-        {
-          is_short: true,
-          text: {
-            content: `🦠 **state**: [#${body.issue.number}](${body.issue.url}) ${body.issue.state}`,
-            tag: "lark_md",
-          },
+      },
+      {
+        is_short: true,
+        text: {
+          content: `🦠 **state**: [#${body.issue.number}](${body.issue.url}) ${body.issue.state}`,
+          tag: "lark_md",
         },
-        {
-          is_short: true,
-          text: {
-            content: `👤 **sender**: [${body.sender.name}](${body.sender.url})`,
-            tag: "lark_md",
-          },
-        },
-      ],
-      tag: "div",
+      },
+    ]);
+  }
+
+  divFields.fields.push({
+    is_short: true,
+    text: {
+      content: `👤 **sender**: [${body.sender.name}](${body.sender.url})`,
+      tag: "lark_md",
     },
+  });
+
+  botMsg.card.elements = botMsg.card.elements.concat([
     {
       tag: "hr",
     },
@@ -382,7 +391,7 @@ const translateComment = (body) => {
         url: `${body.comment.url}`,
       },
     },
-  ];
+  ]);
 
   return botMsg;
 };
