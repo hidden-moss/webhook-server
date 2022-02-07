@@ -161,12 +161,63 @@ const translateCreate = (body) => {
   return botMsg;
 };
 
-const translatePullRequest = (body) => {
+const translateDelete = (body) => {
   const botMsg = {};
   Object.assign(botMsg, template);
 
   botMsg.card.header = {
     template: "red",
+    title: {
+      content: `😿 Delete ${body.ref_type} → ${body.ref}`,
+      tag: "plain_text",
+    },
+  };
+
+  botMsg.card.elements = [
+    {
+      fields: [
+        {
+          is_short: false,
+          text: {
+            content: `🔗 **repo**: [${body.owner.name}](${body.owner.url}) / [${body.repo.name}](${body.repo.url})`,
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: false,
+          text: {
+            content: "",
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: true,
+          text: {
+            content: `🔀 **${body.ref_type}**:\n${body.ref}`,
+            tag: "lark_md",
+          },
+        },
+        {
+          is_short: true,
+          text: {
+            content: `👤 **sender**: [${body.sender.name}](${body.sender.url})`,
+            tag: "lark_md",
+          },
+        },
+      ],
+      tag: "div",
+    },
+  ];
+
+  return botMsg;
+};
+
+const translatePullRequest = (body) => {
+  const botMsg = {};
+  Object.assign(botMsg, template);
+
+  botMsg.card.header = {
+    template: "yellow",
     title: {
       content: `🙏 Pull request #${body.pull_request.number} ${body.action}`,
       tag: "plain_text",
@@ -400,6 +451,7 @@ const dict = {
   PING: translatePing,
   PUSH: translatePush,
   CREATE: translateCreate,
+  DELETE: translateDelete,
   PULL_REQUEST: translatePullRequest,
   ISSUE: translateIssue,
   COMMENT: translateComment,

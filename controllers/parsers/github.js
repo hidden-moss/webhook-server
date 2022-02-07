@@ -73,6 +73,16 @@ const parseCreate = (payload) => {
   return body;
 };
 
+const parseDelete = (payload) => {
+  const body = {};
+  body.repo = getRepo(payload);
+  body.owner = getOwner(payload);
+  body.sender = getSender(payload);
+  body.ref = payload.ref;
+  body.ref_type = payload.ref_type;
+  return body;
+};
+
 const parsePullRequest = (payload) => {
   const body = {};
   body.repo = getRepo(payload);
@@ -158,6 +168,10 @@ const dict = {
   create: {
     event: "CREATE",
     parse: parseCreate,
+  },
+  delete: {
+    event: "DELETE",
+    parse: parseDelete,
   },
   pull_request: {
     event: "PULL_REQUEST",
