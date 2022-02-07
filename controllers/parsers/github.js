@@ -35,6 +35,7 @@ const getCommits = (payload) => {
     commits.push({
       msg: cmt.message,
       committer: cmt.committer.username,
+      committer_url: `https://github.com/${cmt.committer.username}`,
       url: cmt.url,
     });
   }
