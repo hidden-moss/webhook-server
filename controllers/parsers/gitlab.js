@@ -56,7 +56,6 @@ const dict = {
 exports.parse = (req) => {
   const ctx = {};
   const event = req.body.object_kind;
-  console.log(event);
   if (event && dict[event]) {
     ctx.event = dict[event].event;
     ctx.body = dict[event].parse(req.body);
