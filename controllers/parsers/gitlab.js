@@ -37,9 +37,10 @@ const parsePipline = (payload) => {
   body.owner = getOwner(payload);
   body.sender = getSender(payload);
   body.pipeline = {
-    branch: payload.object_attributes.ref,
+    ref: payload.object_attributes.ref,
     status: payload.object_attributes.status,
     stage: payload.object_attributes.stages.join(", "),
+    url: payload.commit.url,
   };
   body.zen = payload.zen || "Practicality beats purity.";
   return body;

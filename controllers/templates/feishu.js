@@ -454,7 +454,7 @@ const translatePipeline = (body) => {
   botMsg.card.header = {
     template: "blue",
     title: {
-      content: "⚙️ New build",
+      content: `⚙️ Build → ${body.pipeline.ref}`,
       tag: "plain_text",
     },
   };
@@ -471,7 +471,7 @@ const translatePipeline = (body) => {
       {
         is_short: true,
         text: {
-          content: `🔀 **branch**:\n${body.pipeline.branch}`,
+          content: `🔀 **branch**:\n${body.pipeline.ref}`,
           tag: "lark_md",
         },
       },
@@ -492,7 +492,7 @@ const translatePipeline = (body) => {
       {
         is_short: true,
         text: {
-          content: `🥨 **status**:\n**${body.pipeline.status}**`,
+          content: `🥨 **status**:\n**[${body.pipeline.status}](${body.pipeline.url})**`,
           tag: "lark_md",
         },
       },
