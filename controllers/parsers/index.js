@@ -4,3 +4,4 @@
 
 // GitHub
 exports.github = require("./github.js");
+exports.gitlab = require("./gitlab.js");

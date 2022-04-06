@@ -447,6 +447,64 @@ const translateComment = (body) => {
   return botMsg;
 };
 
+const translatePipeline = (body) => {
+  const botMsg = {};
+  Object.assign(botMsg, template);
+  // Bot Message
+  botMsg.card.header = {
+    template: "blue",
+    title: {
+      content: "⚙️ New build",
+      tag: "plain_text",
+    },
+  };
+
+  const divFields = {
+    fields: [
+      {
+        is_short: false,
+        text: {
+          content: `🔗 **repo**: [${body.owner.name}](${body.owner.url}) / [${body.repo.name}](${body.repo.url})`,
+          tag: "lark_md",
+        },
+      },
+      {
+        is_short: true,
+        text: {
+          content: `🔀 **branch**:\n${body.pipeline.branch}`,
+          tag: "lark_md",
+        },
+      },
+      {
+        is_short: true,
+        text: {
+          content: `👤 **sender**:\n[${body.sender.name}](${body.sender.url})`,
+          tag: "lark_md",
+        },
+      },
+      {
+        is_short: true,
+        text: {
+          content: `🍌 **stage**:\n${body.pipeline.stage}`,
+          tag: "lark_md",
+        },
+      },
+      {
+        is_short: true,
+        text: {
+          content: `🥨 **status**:\n**${body.pipeline.status}**`,
+          tag: "lark_md",
+        },
+      },
+    ],
+    tag: "div",
+  };
+
+  botMsg.card.elements = [divFields];
+
+  return botMsg;
+};
+
 const dict = {
   PING: translatePing,
   PUSH: translatePush,
@@ -455,6 +513,7 @@ const dict = {
   PULL_REQUEST: translatePullRequest,
   ISSUE: translateIssue,
   COMMENT: translateComment,
+  PIPELINE: translatePipeline,
 };
 
 //////! Send Request ///////
