@@ -26,18 +26,18 @@ app.post(`/webhook/:from/:to/:bot`, (req, res) => {
         template.send(bot, ctx);
         res.status(200).send("OK");
       } else {
-        res.status(500).send("Parse Error");
+        res.status(400).send("Parse Error");
       }
     } catch (err) {
       console.log(err);
-      res.status(500).send(err);
+      res.status(400).send(err);
     } finally {
       return;
     }
   } else {
     console.log(req.body);
     console.log(parser, template);
-    res.status(500).send("Link Error");
+    res.status(400).send("Link Error");
   }
 });
 
