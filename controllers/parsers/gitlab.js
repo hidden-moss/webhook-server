@@ -40,7 +40,7 @@ const parsePipline = (payload) => {
     ref: payload.object_attributes.ref,
     status: payload.object_attributes.status,
     stage: payload.object_attributes.stages.join(", "),
-    url: payload.commit.url,
+    url: `${payload.project.web_url}/-/pipelines/${payload.object_attributes.id}`,
   };
   body.zen = payload.zen || "Practicality beats purity.";
   return body;
