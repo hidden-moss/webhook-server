@@ -11,6 +11,7 @@
   "author": "Hidden Moss Inc",
   "contributors": ["Yuancheng Zhang"],
   "scripts": {
+    "dev-start": "nodemon app.js",
     "start": "node ./app.js"
   },
   "repository": {
@@ -19,5 +20,8 @@
   },
   "dependencies": {
     "express": "~4.16.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
