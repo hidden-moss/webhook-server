@@ -45,14 +45,10 @@ app.get("/404", (req, res) => {
   res.status(404).send("Not found");
 });
 
-app.get("/500", (req, res) => {
-  res.status(500).send("Server Error");
-});
-
 // Error handler
 app.use(function (err, req, res, next) {
   console.error(err);
-  res.status(500).send("Internal Serverless Error");
+  res.status(400).send("Bad Request");
 });
 
 // Web 类型云函数，只能监听 9000 端口
